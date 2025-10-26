@@ -4,7 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { QuizOptions } from './QuizOptions';
 import type { Phrase } from '@/data/phrases';
 import type { QuizOption } from '@/hooks/useQuizMode';
-import { ChevronRight, BarChart3 } from 'lucide-react';
+import { ChevronRight, BarChart3, Volume2, VolumeX } from 'lucide-react';
+import { useSpeech } from '@/hooks/useSpeech';
 
 interface QuizCardProps {
   phrase: Phrase;
@@ -29,6 +30,16 @@ export function QuizCard({
   onNext,
   onShowResults,
 }: QuizCardProps) {
+  const { speak, stop, isSpeaking, isSupported } = useSpeech();
+
+  const handleSpeak = () => {
+    if (isSpeaking) {
+      stop();
+    } else {
+      speak(phrase.english, 'en-US');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card className="pixel-card border-4 border-secondary">
@@ -49,9 +60,26 @@ export function QuizCard({
         </CardHeader>
         <CardContent className="space-y-6">
           <div>
-            <CardTitle className="mb-6 text-center text-2xl md:text-3xl">
-              {phrase.english}
-            </CardTitle>
+            <div className="mb-6 flex items-center justify-center gap-3">
+              <CardTitle className="text-center text-2xl md:text-3xl">
+                {phrase.english}
+              </CardTitle>
+              {isSupported && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSpeak}
+                  className="pixel-button"
+                  title="Ouvir pronúncia em inglês"
+                >
+                  {isSpeaking ? (
+                    <VolumeX className="h-5 w-5" />
+                  ) : (
+                    <Volume2 className="h-5 w-5" />
+                  )}
+                </Button>
+              )}
+            </div>
             <p className="text-center text-sm text-muted-foreground">
               Qual é a tradução correta?
             </p>

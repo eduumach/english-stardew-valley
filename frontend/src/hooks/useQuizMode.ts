@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { Phrase } from '@/data/phrases';
 
 export interface QuizOption {
@@ -6,11 +6,20 @@ export interface QuizOption {
   isCorrect: boolean;
 }
 
+const STORAGE_KEY_CORRECT = 'stardew-quiz-correct';
+const STORAGE_KEY_WRONG = 'stardew-quiz-wrong';
+
 export function useQuizMode(currentPhrase: Phrase | undefined, allPhrases: Phrase[]) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [hasAnswered, setHasAnswered] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [wrongCount, setWrongCount] = useState(0);
+  const [correctCount, setCorrectCount] = useState(() => {
+    const stored = localStorage.getItem(STORAGE_KEY_CORRECT);
+    return stored ? parseInt(stored, 10) : 0;
+  });
+  const [wrongCount, setWrongCount] = useState(() => {
+    const stored = localStorage.getItem(STORAGE_KEY_WRONG);
+    return stored ? parseInt(stored, 10) : 0;
+  });
 
   const options = useMemo(() => {
     if (!currentPhrase) return [];
@@ -32,6 +41,16 @@ export function useQuizMode(currentPhrase: Phrase | undefined, allPhrases: Phras
 
     return allOptions;
   }, [currentPhrase, allPhrases]);
+
+  // Salva correctCount no localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_CORRECT, correctCount.toString());
+  }, [correctCount]);
+
+  // Salva wrongCount no localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_WRONG, wrongCount.toString());
+  }, [wrongCount]);
 
   const selectAnswer = (index: number) => {
     if (hasAnswered) return;
@@ -56,6 +75,8 @@ export function useQuizMode(currentPhrase: Phrase | undefined, allPhrases: Phras
     setHasAnswered(false);
     setCorrectCount(0);
     setWrongCount(0);
+    localStorage.removeItem(STORAGE_KEY_CORRECT);
+    localStorage.removeItem(STORAGE_KEY_WRONG);
   };
 
   return {
