@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Phrase } from '@/data/phrases';
 import { FlashCardContent } from './FlashCardContent';
 import { FlashCardActions } from './FlashCardActions';
@@ -24,18 +24,29 @@ export function FlashCard({
 }: FlashCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
+  // Reset flip state when card changes
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [currentIndex]);
+
   const handleClick = () => {
     setIsFlipped(!isFlipped);
   };
 
   const handleNext = () => {
-    setIsFlipped(false);
     onNext();
   };
 
   const handlePrevious = () => {
-    setIsFlipped(false);
     onPrevious();
+  };
+
+  const handleMarkLearned = () => {
+    onMarkLearned();
+  };
+
+  const handleMarkReview = () => {
+    onMarkReview();
   };
 
   return (
@@ -61,8 +72,8 @@ export function FlashCard({
       </div>
 
       <FlashCardActions
-        onMarkLearned={onMarkLearned}
-        onMarkReview={onMarkReview}
+        onMarkLearned={handleMarkLearned}
+        onMarkReview={handleMarkReview}
         onPrevious={handlePrevious}
         onNext={handleNext}
         currentIndex={currentIndex}
