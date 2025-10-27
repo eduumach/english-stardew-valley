@@ -17,6 +17,7 @@ import { useProgress } from '@/hooks/useProgress';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import { BarChart3 } from 'lucide-react';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 const STORAGE_KEY_MODE = 'stardew-app-mode';
 const STORAGE_KEY_DASHBOARD = 'stardew-show-dashboard';
@@ -129,83 +130,85 @@ function App() {
   }
 
   return (
-    <Container>
-      <Header />
+    <ThemeProvider>
+      <Container>
+        <Header />
 
-      <div className="space-y-6">
-        {/* Botão para alternar dashboard */}
-        <div className="flex justify-end">
-          <Button
-            variant={showDashboard ? 'default' : 'outline'}
-            onClick={() => setShowDashboard(!showDashboard)}
-            className="pixel-button"
-          >
-            <BarChart3 className="mr-2 h-4 w-4" />
-            {showDashboard ? 'Ocultar Dashboard' : 'Ver Dashboard'}
-          </Button>
-        </div>
+        <div className="space-y-6">
+          {/* Botão para alternar dashboard */}
+          <div className="flex justify-end">
+            <Button
+              variant={showDashboard ? 'default' : 'outline'}
+              onClick={() => setShowDashboard(!showDashboard)}
+              className="pixel-button"
+            >
+              <BarChart3 className="mr-2 h-4 w-4" />
+              {showDashboard ? 'Ocultar Dashboard' : 'Ver Dashboard'}
+            </Button>
+          </div>
 
-        {showDashboard && (
-          <>
-            <ProgressDashboard stats={progressStats} />
-            <Separator />
-          </>
-        )}
+          {showDashboard && (
+            <>
+              <ProgressDashboard stats={progressStats} />
+              <Separator />
+            </>
+          )}
 
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          onCategoryChange={changeCategory}
-        />
-
-        <Separator />
-
-        <ModeSelector mode={mode} onModeChange={setMode} />
-
-        <Separator />
-
-        <ProgressTracker
-          learned={stats.learned}
-          learning={stats.learning}
-          newCount={stats.new}
-          total={phrases.length}
-        />
-
-        <Separator />
-
-        {mode === 'study' ? (
-          <FlashCard
-            phrase={currentPhrase}
-            currentIndex={currentIndex}
-            totalCards={totalCards}
-            onMarkLearned={handleMarkLearned}
-            onMarkReview={handleMarkReview}
-            onPrevious={prevCard}
-            onNext={nextCard}
+          <CategoryFilter
+            selectedCategory={selectedCategory}
+            onCategoryChange={changeCategory}
           />
-        ) : (
-          <>
-            <QuizCard
+
+          <Separator />
+
+          <ModeSelector mode={mode} onModeChange={setMode} />
+
+          <Separator />
+
+          <ProgressTracker
+            learned={stats.learned}
+            learning={stats.learning}
+            newCount={stats.new}
+            total={phrases.length}
+          />
+
+          <Separator />
+
+          {mode === 'study' ? (
+            <FlashCard
               phrase={currentPhrase}
-              options={options}
-              selectedAnswer={selectedAnswer}
-              hasAnswered={hasAnswered}
-              correctCount={correctCount}
-              wrongCount={wrongCount}
-              onSelectAnswer={selectAnswer}
-              onNext={handleQuizNext}
-              onShowResults={() => setShowResults(true)}
+              currentIndex={currentIndex}
+              totalCards={totalCards}
+              onMarkLearned={handleMarkLearned}
+              onMarkReview={handleMarkReview}
+              onPrevious={prevCard}
+              onNext={nextCard}
             />
-            <QuizResult
-              isOpen={showResults}
-              correctCount={correctCount}
-              wrongCount={wrongCount}
-              onClose={() => setShowResults(false)}
-              onReset={handleResetQuiz}
-            />
-          </>
-        )}
-      </div>
-    </Container>
+          ) : (
+            <>
+              <QuizCard
+                phrase={currentPhrase}
+                options={options}
+                selectedAnswer={selectedAnswer}
+                hasAnswered={hasAnswered}
+                correctCount={correctCount}
+                wrongCount={wrongCount}
+                onSelectAnswer={selectAnswer}
+                onNext={handleQuizNext}
+                onShowResults={() => setShowResults(true)}
+              />
+              <QuizResult
+                isOpen={showResults}
+                correctCount={correctCount}
+                wrongCount={wrongCount}
+                onClose={() => setShowResults(false)}
+                onReset={handleResetQuiz}
+              />
+            </>
+          )}
+        </div>
+      </Container>
+    </ThemeProvider>
   );
 }
 

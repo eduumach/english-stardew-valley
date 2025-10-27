@@ -85,37 +85,64 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Stardew Valley Dark Theme - Inspired by the cozy night farm atmosphere */
+
+  /* Base colors - Deep navy blue with warm undertones */
+  --background: #1a1d2e;
+  --foreground: #e8e4d9;
+
+  /* Cards - Slightly lighter with subtle purple tint */
+  --card: #252837;
+  --card-foreground: #e8e4d9;
+  --popover: #2a2d3f;
+  --popover-foreground: #e8e4d9;
+
+  /* Primary - Vibrant green like crops at night */
+  --primary: #7fc66d;
+  --primary-foreground: #1a1d2e;
+
+  /* Secondary - Warm brown like wooden fences */
+  --secondary: #8b6f5c;
+  --secondary-foreground: #e8e4d9;
+
+  /* Muted - Subtle blue-gray */
+  --muted: #3a3d52;
+  --muted-foreground: #a8a49a;
+
+  /* Accent - Soft yellow like lamplight */
+  --accent: #e6c86f;
+  --accent-foreground: #1a1d2e;
+
+  /* Destructive - Soft red */
+  --destructive: #e85d75;
+
+  /* Borders and inputs - Subtle contrast */
+  --border: #3f4255;
+  --input: #2f3244;
+  --ring: #7fc66d;
+
+  /* Charts - Vibrant colors for data visualization */
+  --chart-1: #7fc66d; /* Green */
+  --chart-2: #e6c86f; /* Yellow */
+  --chart-3: #7aa8d4; /* Blue */
+  --chart-4: #c98bb9; /* Purple */
+  --chart-5: #e88a6f; /* Orange */
+
+  /* Sidebar */
+  --sidebar: #252837;
+  --sidebar-foreground: #e8e4d9;
+  --sidebar-primary: #7fc66d;
+  --sidebar-primary-foreground: #1a1d2e;
+  --sidebar-accent: #3a3d52;
+  --sidebar-accent-foreground: #e8e4d9;
+  --sidebar-border: #3f4255;
+  --sidebar-ring: #7fc66d;
+
+  /* Dark mode specific Stardew colors */
+  --stardew-dark-green: #7fc66d;
+  --stardew-dark-brown: #6d5a4d;
+  --stardew-dark-beige: #e8e4d9;
+  --stardew-dark-accent: #e6c86f;
 }
 
 @layer base {
@@ -143,6 +170,14 @@
     image-rendering: pixelated;
   }
 
+  .dark .pixel-button {
+    box-shadow:
+      3px 0 0 0 #4a5266,
+      -3px 0 0 0 #4a5266,
+      0 3px 0 0 #4a5266,
+      0 -3px 0 0 #4a5266;
+  }
+
   /* Pixel Card */
   .pixel-card {
     box-shadow:
@@ -154,12 +189,26 @@
     image-rendering: pixelated;
   }
 
+  .dark .pixel-card {
+    box-shadow:
+      4px 0 0 0 #4a5266,
+      -4px 0 0 0 #4a5266,
+      0 4px 0 0 #4a5266,
+      0 -4px 0 0 #4a5266;
+  }
+
   /* Pixel Title */
   .pixel-title {
     font-family: 'Press Start 2P', cursive;
     text-shadow:
       2px 2px 0 var(--stardew-dark-brown);
     image-rendering: pixelated;
+  }
+
+  .dark .pixel-title {
+    text-shadow:
+      2px 2px 0 #0f1219,
+      3px 3px 0 #4a5266;
   }
 
   /* Flip Card Animation */
